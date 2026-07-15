@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Invoice INV-0049: Nkem &amp; Co. Design</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy:#12213A; --navy-deep:#0B1729; --paper:#F3EFE4; --paper-2:#EAE4D3;
+    --gold:#C89B3C; --gold-bright:#E0B75B; --stamp-green:#2F6D4F; --slate:#5B6472; --white:#FFFFFF;
+    --font-display:'Space Grotesk', sans-serif; --font-body:'Inter', sans-serif; --font-mono:'IBM Plex Mono', monospace;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  body{background:var(--paper); min-height:100vh; font-family:var(--font-body); color:var(--navy); display:flex; flex-direction:column; align-items:center; padding:50px 20px;}
+  .brand{font-family:var(--font-display); font-weight:700; font-size:15px; display:flex; align-items:center; gap:7px; color:var(--slate); margin-bottom:34px;}
+  .brand .dot{width:7px;height:7px;border-radius:50%;background:var(--stamp-green); display:inline-block;}
+
+  .invoice{
+    background:var(--white); width:100%; max-width:460px; border-radius:4px; position:relative;
+    box-shadow:0 30px 70px -30px rgba(18,33,58,0.4); padding:0 0 32px;
+  }
+  .perf{height:14px; background-image:radial-gradient(circle, var(--paper) 4px, transparent 4.5px); background-size:20px 14px; background-position:0 -7px; background-repeat:repeat-x;}
+  .head{padding:28px 32px 20px; border-bottom:1px dashed #d8d4c6; display:flex; justify-content:space-between; align-items:flex-start;}
+  .head .biz{font-family:var(--font-display); font-weight:700; font-size:19px;}
+  .head .biz small{display:block; font-family:var(--font-mono); font-weight:400; font-size:11px; color:var(--slate); margin-top:4px;}
+  .head .meta{text-align:right; font-family:var(--font-mono); font-size:11.5px; color:var(--slate);}
+  .head .meta .num{font-weight:600; color:var(--navy); font-size:13px; display:block; margin-bottom:4px;}
+
+  .billto{padding:20px 32px 0; font-size:13px; color:var(--slate);}
+  .billto b{color:var(--navy); display:block; font-size:14px; margin-bottom:2px;}
+
+  .body{padding:20px 32px;}
+  .line{display:flex; justify-content:space-between; align-items:baseline; margin-bottom:13px; font-size:14px;}
+  .line .leader{flex:1; border-bottom:1px dotted #c9c4b2; margin:0 8px; transform:translateY(-4px);}
+  .line .amt{font-family:var(--font-mono); font-size:13.5px; white-space:nowrap;}
+  .total{margin-top:18px; padding-top:16px; border-top:1px solid var(--navy); display:flex; justify-content:space-between; align-items:center;}
+  .total .label{font-family:var(--font-display); font-weight:600; font-size:15px;}
+  .total .val{font-family:var(--font-mono); font-weight:700; font-size:24px;}
+
+  .stamp{
+    position:absolute; right:20px; top:100px; width:92px; height:92px; border:3px solid var(--stamp-green);
+    border-radius:50%; color:var(--stamp-green); display:flex; align-items:center; justify-content:center;
+    font-family:var(--font-display); font-weight:700; font-size:14px; letter-spacing:1.5px; transform:rotate(-16deg);
+  }
+  .stamp::before{content:''; position:absolute; inset:6px; border:1px solid var(--stamp-green); border-radius:50%;}
+
+  .actions{max-width:460px; width:100%; display:flex; gap:12px; margin-top:24px;}
+  .btn{flex:1; font-family:var(--font-body); font-weight:600; font-size:14.5px; padding:14px; border-radius:4px; border:none; text-align:center; transition:transform .15s ease;}
+  .btn:hover{transform:translateY(-1px);}
+  .btn-gold{background:var(--gold); color:var(--navy-deep);}
+  .btn-outline{background:transparent; color:var(--navy); border:1px solid #cfc9b8;}
+
+  .footnote{margin-top:30px; font-family:var(--font-mono); font-size:11.5px; color:#a49d89; text-align:center;}
+</style>
+</head>
+<body>
+
+<div class="brand"><span class="dot"></span>Sent via Duebook</div>
+
+<div class="invoice">
+  <div class="perf"></div>
+  <div class="head">
+    <div class="biz">Nkem &amp; Co. Design<small>hello@nkemdesign.com</small></div>
+    <div class="meta"><span class="num">INV-0049</span>Issued 14 Jul 2026<br>Due 21 Jul 2026</div>
+  </div>
+  <div class="billto"><b>Bill to</b>Ngozi Fashion House</div>
+  <div class="body">
+    <div class="line"><span>Website design (5 pages)</span><span class="leader"></span><span class="amt">₦220,000</span></div>
+    <div class="line"><span>Hosting setup</span><span class="leader"></span><span class="amt">₦25,000</span></div>
+    <div class="total"><span class="label">Total due</span><span class="val">₦245,000</span></div>
+  </div>
+  <div class="stamp">PAID</div>
+</div>
+
+<div class="actions">
+  <button class="btn btn-outline">Download PDF</button>
+  <button class="btn btn-gold">View receipt</button>
+</div>
+
+<div class="footnote">Duebook, invoices that get you paid.</div>
+
+</body>
+</html>

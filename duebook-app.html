@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Duebook: Dashboard</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy:#12213A; --navy-deep:#0B1729; --paper:#F3EFE4; --paper-2:#EAE4D3;
+    --gold:#C89B3C; --gold-bright:#E0B75B; --stamp-green:#2F6D4F; --slate:#5B6472;
+    --rust:#B4472A; --white:#FFFFFF;
+    --font-display:'Space Grotesk', sans-serif; --font-body:'Inter', sans-serif; --font-mono:'IBM Plex Mono', monospace;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  body{background:var(--paper-2); color:var(--navy); font-family:var(--font-body); -webkit-font-smoothing:antialiased;}
+  button{font-family:inherit; cursor:pointer;}
+  input,select,textarea{font-family:inherit;}
+
+  .shell{display:grid; grid-template-columns:230px 1fr; min-height:100vh;}
+
+  /* SIDEBAR */
+  .sidebar{background:var(--navy); color:var(--paper); padding:26px 18px; display:flex; flex-direction:column;}
+  .logo{font-family:var(--font-display); font-weight:700; font-size:19px; display:flex; align-items:center; gap:8px; padding:6px 10px 30px;}
+  .logo .dot{width:8px;height:8px;border-radius:50%;background:var(--stamp-green); display:inline-block;}
+  .navlist{display:flex; flex-direction:column; gap:4px; flex:1;}
+  .navlink{
+    display:flex; align-items:center; gap:10px; padding:11px 12px; border-radius:5px;
+    color:#b9bfca; font-size:14px; font-weight:500; background:none; border:none; text-align:left; width:100%;
+  }
+  .navlink .ic{width:16px; text-align:center; font-family:var(--font-mono); font-size:12px;}
+  .navlink:hover{background:rgba(243,239,228,0.06); color:var(--paper);}
+  .navlink.active{background:rgba(243,239,228,0.1); color:var(--paper);}
+  .navlink.active .ic{color:var(--gold-bright);}
+  .sidebar-foot{padding:14px 12px; border-top:1px solid rgba(243,239,228,0.12); margin-top:10px;}
+  .plan-chip{font-family:var(--font-mono); font-size:11px; color:var(--gold-bright); letter-spacing:0.5px; margin-bottom:6px;}
+  .usage-mini{font-size:12px; color:#8f97a5;}
+
+  /* MAIN */
+  main{padding:34px 42px; max-width:1100px;}
+  .topbar{display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:30px;}
+  .topbar h1{font-family:var(--font-display); font-size:26px; font-weight:700;}
+  .topbar .sub{color:var(--slate); font-size:14px; margin-top:4px;}
+  .btn{font-weight:600; font-size:14px; padding:10px 18px; border-radius:4px; border:none; transition:transform .15s ease;}
+  .btn:hover{transform:translateY(-1px);}
+  .btn-primary{background:var(--navy); color:var(--paper);}
+  .btn-gold{background:var(--gold); color:var(--navy-deep);}
+  .btn-ghost{background:transparent; color:var(--navy); border:1px solid #d3cdba;}
+
+  .view{display:none;}
+  .view.active{display:block;}
+
+  /* USAGE CARD */
+  .usage-card{
+    background:var(--white); border-radius:6px; padding:20px 24px; margin-bottom:26px;
+    display:flex; align-items:center; justify-content:space-between; box-shadow:0 10px 30px -20px rgba(18,33,58,0.3);
+  }
+  .usage-text{font-size:13.5px; color:var(--slate);}
+  .usage-text b{color:var(--navy); font-family:var(--font-mono);}
+  .bar-track{width:220px; height:8px; border-radius:6px; background:var(--paper-2); overflow:hidden; margin-top:8px;}
+  .bar-fill{height:100%; background:var(--stamp-green); border-radius:6px;}
+  .usage-cta{font-family:var(--font-mono); font-size:12px; color:var(--gold); font-weight:600;}
+
+  /* TABLE */
+  .table-card{background:var(--white); border-radius:6px; overflow:hidden; box-shadow:0 10px 30px -20px rgba(18,33,58,0.3);}
+  table{width:100%; border-collapse:collapse;}
+  th{text-align:left; font-family:var(--font-mono); font-size:11px; letter-spacing:0.5px; text-transform:uppercase; color:var(--slate); padding:14px 20px; border-bottom:1px solid #eee;}
+  td{padding:15px 20px; border-bottom:1px solid #f2f0ea; font-size:14px;}
+  tr:last-child td{border-bottom:none;}
+  tr:hover td{background:#fbfaf6;}
+  .client-cell{font-weight:600;}
+  .client-cell .num{display:block; font-family:var(--font-mono); font-size:11.5px; color:var(--slate); font-weight:400; margin-top:2px;}
+  .amt-cell{font-family:var(--font-mono); font-weight:600;}
+  .status{display:inline-flex; align-items:center; gap:6px; font-family:var(--font-mono); font-size:11px; padding:4px 10px; border-radius:12px; font-weight:600;}
+  .status.paid{background:#e7f1ec; color:var(--stamp-green);}
+  .status.sent{background:#eef1f6; color:#4a5b75;}
+  .status.draft{background:#f1efe8; color:var(--slate);}
+  .status.overdue{background:#fbeae5; color:var(--rust);}
+  .row-actions{display:flex; gap:14px; font-size:12.5px; color:var(--slate);}
+  .row-actions a{font-weight:600; color:var(--navy);}
+
+  /* EMPTY STATE */
+  .empty{
+    background:var(--white); border-radius:6px; padding:70px 40px; text-align:center;
+    box-shadow:0 10px 30px -20px rgba(18,33,58,0.3);
+  }
+  .empty .mark{
+    width:64px; height:64px; border:2px dashed #cfc9b8; border-radius:50%; margin:0 auto 22px;
+    display:flex; align-items:center; justify-content:center; font-family:var(--font-mono); font-size:22px; color:#cfc9b8;
+  }
+  .empty h3{font-family:var(--font-display); font-size:19px; margin-bottom:8px;}
+  .empty p{color:var(--slate); font-size:14px; margin-bottom:22px;}
+  .toggle-demo{font-family:var(--font-mono); font-size:11.5px; color:var(--slate); text-decoration:underline; background:none; border:none; margin-bottom:16px; display:inline-block;}
+
+  /* BUILDER */
+  .builder-grid{display:grid; grid-template-columns:1.1fr 0.9fr; gap:28px; align-items:flex-start;}
+  .panel{background:var(--white); border-radius:6px; padding:26px; box-shadow:0 10px 30px -20px rgba(18,33,58,0.3);}
+  .panel h3{font-family:var(--font-display); font-size:15px; margin-bottom:16px; padding-bottom:12px; border-bottom:1px solid #eee;}
+  .field-row{display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-bottom:14px;}
+  .field{margin-bottom:14px;}
+  .field label{display:block; font-family:var(--font-mono); font-size:11px; color:var(--slate); margin-bottom:6px;}
+  .field input, .field select, .field textarea{
+    width:100%; padding:10px 12px; border-radius:4px; border:1px solid #ddd6c4; font-size:14px; background:#fdfcf9;
+  }
+  .tpl-select{display:flex; gap:8px; margin-bottom:20px; flex-wrap:wrap;}
+  .tpl-btn{font-family:var(--font-mono); font-size:12px; padding:8px 14px; border-radius:16px; border:1px solid #d3cdba; background:transparent; color:var(--slate);}
+  .tpl-btn.active{background:var(--navy); color:var(--paper); border-color:var(--navy);}
+  .item-row{display:grid; grid-template-columns:1fr 60px 100px 30px; gap:8px; margin-bottom:8px; align-items:center;}
+  .item-row input{padding:8px 10px; font-size:13px; border-radius:4px; border:1px solid #ddd6c4;}
+  .remove-item{background:none; border:none; color:#c2b8a0; font-size:16px;}
+  .add-item{font-family:var(--font-mono); font-size:12px; color:var(--stamp-green); background:none; border:none; font-weight:600; margin-top:6px;}
+  .builder-actions{display:flex; gap:10px; margin-top:22px;}
+
+  /* PREVIEW */
+  .preview-wrap{position:sticky; top:30px;}
+  .preview-label{font-family:var(--font-mono); font-size:11px; color:var(--slate); margin-bottom:10px; text-transform:uppercase; letter-spacing:0.5px;}
+  .invoice-preview{background:var(--white); border-radius:4px; padding:0 0 24px; box-shadow:0 20px 45px -25px rgba(18,33,58,0.35);}
+  .perf{height:12px; background-image:radial-gradient(circle, var(--paper-2) 3.5px, transparent 4px); background-size:18px 12px; background-position:0 -6px; background-repeat:repeat-x;}
+  .prev-head{padding:20px 24px 14px;}
+  .prev-head.standard{background:var(--navy); color:var(--paper); margin-bottom:16px;}
+  .prev-head.sales{background:linear-gradient(90deg,var(--gold),var(--gold-bright)); color:var(--navy-deep); margin-bottom:16px;}
+  .prev-head.corporate{border-bottom:3px double var(--navy); margin-bottom:16px;}
+  .prev-head.basic{border-bottom:1px dashed #ddd6c4; margin-bottom:16px;}
+  .prev-biz{font-family:var(--font-display); font-weight:700; font-size:16px;}
+  .prev-meta{font-family:var(--font-mono); font-size:11px; color:var(--slate); margin-top:5px; display:flex; justify-content:space-between;}
+  .prev-head.standard .prev-meta, .prev-head.sales .prev-meta{color:inherit; opacity:0.85;}
+  .prev-body{padding:0 24px;}
+  .prev-line{display:flex; justify-content:space-between; font-size:13px; margin-bottom:10px;}
+  .prev-line .leader{flex:1; border-bottom:1px dotted #d6d0bd; margin:0 8px; transform:translateY(-4px);}
+  .prev-line .amt{font-family:var(--font-mono);}
+  .prev-total{margin-top:14px; padding-top:12px; border-top:1px solid var(--navy); display:flex; justify-content:space-between; align-items:center;}
+  .prev-total .label{font-family:var(--font-display); font-weight:600; font-size:13px;}
+  .prev-total .val{font-family:var(--font-mono); font-weight:700; font-size:19px;}
+
+  /* ACCOUNT & BILLING */
+  .acct-grid{display:grid; grid-template-columns:1fr 1fr; gap:24px; margin-bottom:24px;}
+  .plan-card{background:var(--navy); color:var(--paper); border-radius:6px; padding:26px;}
+  .plan-card .tag{font-family:var(--font-mono); font-size:11px; color:var(--gold-bright); letter-spacing:1px; margin-bottom:10px;}
+  .plan-card h2{font-family:var(--font-display); font-size:24px; margin-bottom:4px;}
+  .plan-card p{font-size:13px; color:#aab2c0; margin-bottom:20px;}
+  .plan-card .btn{width:100%;}
+  .info-card{background:var(--white); border-radius:6px; padding:26px; box-shadow:0 10px 30px -20px rgba(18,33,58,0.3);}
+  .info-card h3{font-family:var(--font-display); font-size:15px; margin-bottom:16px;}
+  .info-row{display:flex; justify-content:space-between; font-size:13.5px; padding:9px 0; border-bottom:1px dotted #eee;}
+  .info-row:last-child{border-bottom:none;}
+  .info-row .v{font-family:var(--font-mono); font-weight:600;}
+
+  /* PAYWALL MODAL */
+  .modal-overlay{
+    display:none; position:fixed; inset:0; background:rgba(11,23,41,0.55);
+    align-items:center; justify-content:center; z-index:100; padding:20px;
+  }
+  .modal-overlay.active{display:flex;}
+  .paywall-card{
+    background:var(--white); width:100%; max-width:460px; border-radius:6px; position:relative;
+    box-shadow:0 40px 80px -30px rgba(11,23,41,0.5); overflow:hidden;
+  }
+  .modal-close{
+    position:absolute; top:16px; right:18px; background:none; border:none; font-size:22px;
+    color:var(--slate); line-height:1;
+  }
+  .paywall-top{background:var(--navy); color:var(--paper); padding:32px 32px 26px; text-align:center;}
+  .paywall-count{font-family:var(--font-mono); font-size:13px; color:var(--gold-bright); letter-spacing:2px; margin-bottom:12px;}
+  .paywall-top h2{font-family:var(--font-display); font-size:22px; margin-bottom:8px;}
+  .paywall-top p{font-size:13.5px; color:#aab2c0;}
+  .paywall-perf{height:14px; background-image:radial-gradient(circle, var(--white) 4px, transparent 4.5px); background-size:20px 14px; background-position:0 -7px; background-repeat:repeat-x; background-color:var(--navy);}
+  .paywall-options{display:grid; grid-template-columns:1fr 1fr; gap:16px; padding:26px 28px 6px;}
+  .paywall-option{border:1px solid #e7e2d3; border-radius:5px; padding:18px; position:relative;}
+  .paywall-option.featured{border-color:var(--gold);}
+  .po-badge{position:absolute; top:-11px; right:14px; background:var(--gold); color:var(--navy-deep); font-family:var(--font-mono); font-size:10px; font-weight:700; padding:3px 8px; border-radius:10px;}
+  .po-name{font-family:var(--font-mono); font-size:11px; color:var(--slate); text-transform:uppercase; letter-spacing:0.5px; margin-bottom:6px;}
+  .po-price{font-family:var(--font-display); font-size:21px; font-weight:700; margin-bottom:12px;}
+  .po-price span{font-family:var(--font-mono); font-size:11px; font-weight:400; color:var(--slate);}
+  .paywall-option ul{list-style:none; margin-bottom:14px;}
+  .paywall-option li{font-size:12.5px; color:var(--slate); padding-left:14px; position:relative; margin-bottom:5px;}
+  .paywall-option li::before{content:'✓'; position:absolute; left:0; color:var(--stamp-green); font-weight:700;}
+  .paywall-wait{
+    display:block; width:100%; text-align:center; background:none; border:none; padding:18px 28px 26px;
+    font-family:var(--font-mono); font-size:12px; color:var(--slate); text-decoration:underline;
+  }
+
+  @media (max-width:900px){
+    .shell{grid-template-columns:1fr;}
+    .sidebar{flex-direction:row; overflow-x:auto;}
+    .navlist{flex-direction:row;}
+    main{padding:24px 18px;}
+    .builder-grid{grid-template-columns:1fr;}
+    .acct-grid{grid-template-columns:1fr;}
+  }
+</style>
+</head>
+<body>
+
+<div class="shell">
+  <div class="sidebar">
+    <div class="logo"><span class="dot"></span>Duebook</div>
+    <div class="navlist">
+      <button class="navlink active" data-view="dashboard"><span class="ic">01</span>Dashboard</button>
+      <button class="navlink" data-view="builder"><span class="ic">02</span>New invoice</button>
+      <button class="navlink" data-view="account"><span class="ic">03</span>Account &amp; billing</button>
+    </div>
+    <div class="sidebar-foot">
+      <div class="plan-chip">FREE PLAN</div>
+      <div class="usage-mini">9 of 15 invoices used</div>
+    </div>
+  </div>
+
+  <main>
+
+    <!-- DASHBOARD -->
+    <div class="view active" id="view-dashboard">
+      <div class="topbar">
+        <div>
+          <h1>Your invoices</h1>
+          <div class="sub">Everything you've billed, in one place.</div>
+        </div>
+        <button class="btn btn-gold" onclick="showView('builder')">+ New invoice</button>
+      </div>
+
+      <div class="usage-card">
+        <div>
+          <div class="usage-text">This month: <b>9 / 15</b> free invoices used</div>
+          <div class="bar-track"><div class="bar-fill" style="width:60%"></div></div>
+        </div>
+        <div class="usage-cta">Go unlimited for ₦1,200/mo →</div>
+      </div>
+
+      <div style="display:flex; gap:20px; margin-bottom:18px;">
+        <button class="toggle-demo" onclick="toggleEmpty()">Preview empty state instead →</button>
+        <button class="toggle-demo" onclick="openPaywall()">Preview limit-reached screen →</button>
+      </div>
+
+      <div id="dash-filled">
+        <div class="table-card">
+          <table>
+            <thead><tr><th>Client</th><th>Template</th><th>Amount</th><th>Status</th><th>Date</th><th></th></tr></thead>
+            <tbody>
+              <tr>
+                <td class="client-cell">Nkem &amp; Co. Design<span class="num">INV-0049</span></td>
+                <td>Standard</td>
+                <td class="amt-cell">₦245,000</td>
+                <td><span class="status paid">● Paid</span></td>
+                <td>14 Jul 2026</td>
+                <td class="row-actions"><a href="#">View</a><a href="#">PDF</a></td>
+              </tr>
+              <tr>
+                <td class="client-cell">Bimpe Fabrics<span class="num">INV-0048</span></td>
+                <td>Sales</td>
+                <td class="amt-cell">₦47,500</td>
+                <td><span class="status sent">● Sent</span></td>
+                <td>12 Jul 2026</td>
+                <td class="row-actions"><a href="#">View</a><a href="#">PDF</a></td>
+              </tr>
+              <tr>
+                <td class="client-cell">Verdant Logistics Ltd.<span class="num">INV-0047</span></td>
+                <td>Corporate</td>
+                <td class="amt-cell">₦1,988,750</td>
+                <td><span class="status overdue">● Overdue</span></td>
+                <td>03 Jul 2026</td>
+                <td class="row-actions"><a href="#">View</a><a href="#">PDF</a></td>
+              </tr>
+              <tr>
+                <td class="client-cell">Chuka Repairs<span class="num">INV-0046</span></td>
+                <td>Basic</td>
+                <td class="amt-cell">₦27,500</td>
+                <td><span class="status draft">● Draft</span></td>
+                <td>29 Jun 2026</td>
+                <td class="row-actions"><a href="#">Edit</a><a href="#">PDF</a></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div id="dash-empty" style="display:none;">
+        <div class="empty">
+          <div class="mark">＋</div>
+          <h3>No invoices yet</h3>
+          <p>Build your first one. It takes about a minute.</p>
+          <button class="btn btn-primary" onclick="showView('builder')">Create your first invoice</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- BUILDER -->
+    <div class="view" id="view-builder">
+      <div class="topbar">
+        <div>
+          <h1>New invoice</h1>
+          <div class="sub">Fill it in on the left, watch it build itself on the right.</div>
+        </div>
+        <div style="text-align:right;">
+          <div class="usage-cta">6 free invoices left this month</div>
+        </div>
+      </div>
+
+      <div class="builder-grid">
+        <div class="panel">
+          <h3>Template</h3>
+          <div class="tpl-select">
+            <button class="tpl-btn active" data-t="basic">Basic</button>
+            <button class="tpl-btn" data-t="standard">Standard</button>
+            <button class="tpl-btn" data-t="sales">Sales</button>
+            <button class="tpl-btn" data-t="corporate">Corporate</button>
+          </div>
+
+          <h3>Bill to</h3>
+          <div class="field-row">
+            <div class="field"><label>Client name</label><input id="clientName" value="Ngozi Fashion House" oninput="renderPreview()"></div>
+            <div class="field"><label>Invoice number</label><input id="invNum" value="INV-0050" oninput="renderPreview()"></div>
+          </div>
+          <div class="field-row">
+            <div class="field"><label>Client email</label><input value="ngozi@fashionhouse.com"></div>
+            <div class="field"><label>Currency</label><select><option>₦ NGN</option><option>$ USD</option></select></div>
+          </div>
+
+          <h3>Line items</h3>
+          <div id="itemRows">
+            <div class="item-row">
+              <input value="Bridal gown fitting" oninput="renderPreview()">
+              <input value="1" oninput="renderPreview()">
+              <input value="65000" oninput="renderPreview()">
+              <button class="remove-item" onclick="removeRow(this)">×</button>
+            </div>
+            <div class="item-row">
+              <input value="Fabric &amp; materials" oninput="renderPreview()">
+              <input value="1" oninput="renderPreview()">
+              <input value="38000" oninput="renderPreview()">
+              <button class="remove-item" onclick="removeRow(this)">×</button>
+            </div>
+          </div>
+          <button class="add-item" onclick="addRow()">+ Add line item</button>
+
+          <div class="builder-actions">
+            <button class="btn btn-primary">Save as draft</button>
+            <button class="btn btn-gold">Download PDF</button>
+          </div>
+        </div>
+
+        <div class="preview-wrap">
+          <div class="preview-label">Live preview</div>
+          <div class="invoice-preview" id="invoicePreview"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ACCOUNT & BILLING -->
+    <div class="view" id="view-account">
+      <div class="topbar">
+        <div>
+          <h1>Account &amp; billing</h1>
+          <div class="sub">Your plan, payment method, and receipts.</div>
+        </div>
+      </div>
+
+      <div class="acct-grid">
+        <div class="plan-card">
+          <div class="tag">CURRENT PLAN</div>
+          <h2>Free</h2>
+          <p>15 invoices / month · templates included · ads shown</p>
+          <button class="btn btn-gold">Upgrade to Monthly (₦1,200)</button>
+        </div>
+        <div class="info-card">
+          <h3>This month's usage</h3>
+          <div class="info-row"><span>Invoices created</span><span class="v">9 / 15</span></div>
+          <div class="info-row"><span>Resets on</span><span class="v">1 Aug 2026</span></div>
+          <div class="info-row"><span>Ads shown</span><span class="v">Yes</span></div>
+        </div>
+      </div>
+
+      <div class="info-card" style="margin-bottom:24px;">
+        <h3>Payment method</h3>
+        <div class="info-row"><span>No card on file</span><span class="v" style="color:var(--slate); font-weight:400;">None</span></div>
+        <button class="btn btn-ghost" style="margin-top:12px;">+ Add payment method</button>
+      </div>
+
+      <div class="table-card">
+        <table>
+          <thead><tr><th>Date</th><th>Description</th><th>Amount</th><th>Status</th><th></th></tr></thead>
+          <tbody>
+            <tr><td colspan="5" style="color:var(--slate); font-style:italic;">No billing history yet. You're on the free plan.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<!-- PAYWALL MODAL -->
+<div class="modal-overlay" id="paywallOverlay">
+  <div class="paywall-card">
+    <button class="modal-close" onclick="closePaywall()">×</button>
+    <div class="paywall-top">
+      <div class="paywall-count">15 / 15</div>
+      <h2>That's your free 15 for July.</h2>
+      <p>Your count resets on 1 August, or you can go unlimited right now.</p>
+    </div>
+    <div class="paywall-perf"></div>
+    <div class="paywall-options">
+      <div class="paywall-option">
+        <div class="po-name">Monthly</div>
+        <div class="po-price">₦1,200<span>/mo</span></div>
+        <ul>
+          <li>Unlimited invoices</li>
+          <li>No ads</li>
+        </ul>
+        <button class="btn btn-primary" style="width:100%;">Go monthly</button>
+      </div>
+      <div class="paywall-option featured">
+        <div class="po-badge">SAVE 17%</div>
+        <div class="po-name">Yearly</div>
+        <div class="po-price">₦12,000<span>/yr</span></div>
+        <ul>
+          <li>Unlimited invoices</li>
+          <li>No ads</li>
+        </ul>
+        <button class="btn btn-gold" style="width:100%;">Go yearly</button>
+      </div>
+    </div>
+    <button class="paywall-wait" onclick="closePaywall()">I'll wait until August</button>
+  </div>
+</div>
+
+<script>
+  function showView(name){
+    document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+    document.getElementById('view-' + name).classList.add('active');
+    document.querySelectorAll('.navlink').forEach(n => n.classList.remove('active'));
+    document.querySelector('.navlink[data-view="' + name + '"]').classList.add('active');
+    if(name === 'builder') renderPreview();
+  }
+  document.querySelectorAll('.navlink').forEach(btn => {
+    btn.addEventListener('click', () => showView(btn.dataset.view));
+  });
+
+  function toggleEmpty(){
+    const filled = document.getElementById('dash-filled');
+    const empty = document.getElementById('dash-empty');
+    const isFilled = filled.style.display !== 'none';
+    filled.style.display = isFilled ? 'none' : 'block';
+    empty.style.display = isFilled ? 'block' : 'none';
+  }
+
+  let currentTpl = 'basic';
+  document.querySelectorAll('.tpl-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.tpl-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      currentTpl = btn.dataset.t;
+      renderPreview();
+    });
+  });
+
+  function addRow(){
+    const wrap = document.getElementById('itemRows');
+    const row = document.createElement('div');
+    row.className = 'item-row';
+    row.innerHTML = `<input placeholder="Description" oninput="renderPreview()">
+      <input value="1" oninput="renderPreview()">
+      <input placeholder="0" oninput="renderPreview()">
+      <button class="remove-item" onclick="removeRow(this)">×</button>`;
+    wrap.appendChild(row);
+    renderPreview();
+  }
+  function removeRow(btn){
+    btn.parentElement.remove();
+    renderPreview();
+  }
+
+  function fmt(n){ return '₦' + Number(n||0).toLocaleString(); }
+
+  function renderPreview(){
+    const client = document.getElementById('clientName').value || 'Client name';
+    const num = document.getElementById('invNum').value || 'INV-0000';
+    const rows = document.querySelectorAll('#itemRows .item-row');
+    let total = 0;
+    let linesHtml = '';
+    rows.forEach(r => {
+      const inputs = r.querySelectorAll('input');
+      const desc = inputs[0].value || 'Item';
+      const qty = Number(inputs[1].value) || 1;
+      const price = Number(inputs[2].value) || 0;
+      const lineTotal = qty * price;
+      total += lineTotal;
+      linesHtml += `<div class="prev-line"><span>${desc}</span><span class="leader"></span><span class="amt">${fmt(lineTotal)}</span></div>`;
+    });
+
+    let headHtml = '';
+    if(currentTpl === 'standard'){
+      headHtml = `<div class="prev-head standard"><div class="prev-biz">Your Business</div><div class="prev-meta"><span>${num}</span><span>14 Jul 2026</span></div></div>`;
+    } else if(currentTpl === 'sales'){
+      headHtml = `<div class="prev-head sales"><div class="prev-biz">Your Business: Sale</div><div class="prev-meta"><span>${num}</span><span>14 Jul 2026</span></div></div>`;
+    } else if(currentTpl === 'corporate'){
+      headHtml = `<div class="prev-head corporate"><div class="prev-biz">Your Business Ltd.</div><div class="prev-meta"><span>${num}</span><span>14 Jul 2026</span></div></div>`;
+    } else {
+      headHtml = `<div class="prev-head basic"><div class="prev-biz">Your Business</div><div class="prev-meta"><span>${num}</span><span>14 Jul 2026</span></div></div>`;
+    }
+
+    document.getElementById('invoicePreview').innerHTML = `
+      <div class="perf"></div>
+      ${headHtml}
+      <div class="prev-body">
+        <div style="font-family:var(--font-mono); font-size:11.5px; color:var(--slate); margin-bottom:14px;">Bill to: ${client}</div>
+        ${linesHtml}
+        <div class="prev-total"><span class="label">Total due</span><span class="val">${fmt(total)}</span></div>
+      </div>
+    `;
+  }
+
+  renderPreview();
+
+  function openPaywall(){ document.getElementById('paywallOverlay').classList.add('active'); }
+  function closePaywall(){ document.getElementById('paywallOverlay').classList.remove('active'); }
+</script>
+
+</body>
+</html>

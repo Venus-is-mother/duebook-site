@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1224862762178096"
+     crossorigin="anonymous"></script> <!--Google Adsense-->
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Duebook: Invoices that get paid</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy:#12213A;
+    --navy-deep:#0B1729;
+    --paper:#F3EFE4;
+    --paper-2:#EAE4D3;
+    --gold:#C89B3C;
+    --gold-bright:#E0B75B;
+    --stamp-green:#2F6D4F;
+    --slate:#5B6472;
+    --rust:#B4472A;
+    --white:#FFFFFF;
+    --font-display:'Space Grotesk', sans-serif;
+    --font-body:'Inter', sans-serif;
+    --font-mono:'IBM Plex Mono', monospace;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  body{
+    background:var(--paper);
+    color:var(--navy);
+    font-family:var(--font-body);
+    line-height:1.5;
+    -webkit-font-smoothing:antialiased;
+  }
+  a{color:inherit; text-decoration:none;}
+  img{max-width:100%;}
+  .wrap{max-width:1180px; margin:0 auto; padding:0 32px;}
+
+  /* NAV */
+  nav{
+    display:flex; align-items:center; justify-content:space-between;
+    padding:26px 32px; max-width:1180px; margin:0 auto;
+  }
+  .logo{
+    font-family:var(--font-display); font-weight:700; font-size:22px;
+    letter-spacing:0.5px; display:flex; align-items:center; gap:8px;
+  }
+  .logo .dot{width:9px;height:9px;border-radius:50%;background:var(--stamp-green);display:inline-block;}
+  .nav-links{display:flex; gap:36px; font-size:14.5px; color:var(--slate); font-weight:500;}
+  .nav-actions{display:flex; align-items:center; gap:18px;}
+  .btn-ghost{font-size:14.5px; font-weight:600; color:var(--navy);}
+  .btn{
+    font-family:var(--font-body); font-weight:600; font-size:14.5px;
+    padding:11px 22px; border-radius:3px; border:none; cursor:pointer;
+    transition:transform .15s ease, box-shadow .15s ease;
+  }
+  .btn-primary{background:var(--navy); color:var(--paper);}
+  .btn-primary:hover{transform:translateY(-1px); box-shadow:0 6px 14px rgba(18,33,58,0.25);}
+  .btn-gold{background:var(--gold); color:var(--navy-deep);}
+  .btn-gold:hover{transform:translateY(-1px); box-shadow:0 6px 14px rgba(200,155,60,0.35);}
+
+  /* HERO */
+  .hero{
+    display:grid; grid-template-columns:1fr 1fr; gap:60px;
+    align-items:center; padding:60px 32px 100px; max-width:1180px; margin:0 auto;
+  }
+  .eyebrow{
+    font-family:var(--font-mono); font-size:12.5px; letter-spacing:1.5px;
+    color:var(--stamp-green); text-transform:uppercase; margin-bottom:18px;
+    display:flex; align-items:center; gap:10px;
+  }
+  .eyebrow::before{content:''; width:22px; height:1px; background:var(--stamp-green);}
+  h1{
+    font-family:var(--font-display); font-size:52px; line-height:1.08;
+    font-weight:700; letter-spacing:-0.5px; margin-bottom:22px;
+  }
+  h1 em{font-style:normal; color:var(--gold-bright); -webkit-text-stroke:0;}
+  .hero-sub{font-size:17px; color:var(--slate); max-width:420px; margin-bottom:32px;}
+  .hero-actions{display:flex; gap:14px; margin-bottom:30px;}
+  .btn-lg{padding:14px 26px; font-size:15px;}
+  .hero-note{font-size:13px; color:var(--slate); font-family:var(--font-mono);}
+
+  /* INVOICE CARD */
+  .invoice-stage{position:relative; display:flex; justify-content:center;}
+  .invoice-card{
+    background:var(--white); width:380px; border-radius:2px;
+    box-shadow:0 30px 60px -20px rgba(11,23,41,0.35), 0 2px 0 rgba(11,23,41,0.08);
+    position:relative; transform:rotate(-3deg);
+    padding:0 0 28px;
+  }
+  .perforation{
+    height:14px; width:100%;
+    background-image:radial-gradient(circle, var(--paper) 4px, transparent 4.5px);
+    background-size:20px 14px; background-position:0 -7px; background-repeat:repeat-x;
+  }
+  .invoice-head{padding:26px 28px 18px; border-bottom:1px dashed #d8d4c6;}
+  .invoice-head .biz{font-family:var(--font-display); font-weight:700; font-size:17px;}
+  .invoice-head .meta{font-family:var(--font-mono); font-size:11.5px; color:var(--slate); margin-top:6px; display:flex; justify-content:space-between;}
+  .invoice-body{padding:20px 28px;}
+  .line-item{display:flex; justify-content:space-between; align-items:baseline; margin-bottom:12px; font-size:13.5px;}
+  .line-item .desc{color:var(--navy);}
+  .line-item .leader{flex:1; border-bottom:1px dotted #c9c4b2; margin:0 8px; transform:translateY(-4px);}
+  .line-item .amt{font-family:var(--font-mono); font-size:13px; white-space:nowrap;}
+  .invoice-total{
+    margin-top:18px; padding-top:14px; border-top:1px solid var(--navy);
+    display:flex; justify-content:space-between; align-items:center;
+  }
+  .invoice-total .label{font-family:var(--font-display); font-weight:600; font-size:14px;}
+  .invoice-total .val{font-family:var(--font-mono); font-weight:600; font-size:19px;}
+  .stamp{
+    position:absolute; right:-18px; top:130px;
+    width:104px; height:104px; border:3px solid var(--stamp-green);
+    border-radius:50%; color:var(--stamp-green);
+    display:flex; align-items:center; justify-content:center;
+    font-family:var(--font-display); font-weight:700; font-size:16px;
+    letter-spacing:2px; transform:rotate(-18deg) scale(0);
+    opacity:0;
+    animation:stampIn 0.55s cubic-bezier(.2,1.4,.4,1) 0.9s forwards;
+  }
+  .stamp::before{
+    content:''; position:absolute; inset:6px; border:1px solid var(--stamp-green); border-radius:50%;
+  }
+  @keyframes stampIn{
+    0%{transform:rotate(-18deg) scale(2.4); opacity:0;}
+    60%{transform:rotate(-18deg) scale(0.92); opacity:1;}
+    100%{transform:rotate(-18deg) scale(1); opacity:1;}
+  }
+  @media (prefers-reduced-motion: reduce){
+    .stamp{animation:none; transform:rotate(-18deg) scale(1); opacity:1;}
+  }
+
+  /* AUDIENCE STRIP */
+  .audience{background:var(--navy); color:var(--paper); padding:70px 32px;}
+  .audience-grid{
+    max-width:1180px; margin:0 auto; display:grid;
+    grid-template-columns:repeat(4,1fr); gap:1px; background:rgba(243,239,228,0.12);
+  }
+  .audience-card{background:var(--navy); padding:32px 26px;}
+  .audience-card .tag{font-family:var(--font-mono); font-size:11.5px; color:var(--gold-bright); letter-spacing:1px; margin-bottom:14px; display:block;}
+  .audience-card h3{font-family:var(--font-display); font-size:19px; margin-bottom:10px; font-weight:600;}
+  .audience-card p{font-size:13.5px; color:#b9bfca;}
+
+  /* TEMPLATES */
+  .templates{padding:100px 32px; max-width:1180px; margin:0 auto;}
+  .section-head{margin-bottom:44px; max-width:520px;}
+  .section-head .eyebrow{color:var(--gold);}
+  .section-head .eyebrow::before{background:var(--gold);}
+  .section-head h2{font-family:var(--font-display); font-size:34px; font-weight:700; margin-bottom:12px;}
+  .section-head p{color:var(--slate); font-size:15.5px;}
+  .tabs{display:flex; gap:8px; margin-bottom:36px; flex-wrap:wrap;}
+  .tab{
+    font-family:var(--font-mono); font-size:12.5px; padding:9px 16px;
+    border:1px solid #cfc9b8; border-radius:20px; cursor:pointer; color:var(--slate);
+    background:transparent; transition:all .15s ease;
+  }
+  .tab.active{background:var(--navy); color:var(--paper); border-color:var(--navy);}
+  .template-preview{
+    background:var(--white); border-radius:4px; padding:40px; min-height:340px;
+    box-shadow:0 20px 50px -25px rgba(18,33,58,0.3);
+  }
+  .tpl-panel{display:none;}
+  .tpl-panel.active{display:block;}
+  .tpl-basic .tpl-head{font-family:var(--font-mono); font-size:13px; color:var(--slate); border-bottom:1px solid #eee; padding-bottom:16px; margin-bottom:20px; display:flex; justify-content:space-between;}
+  .tpl-standard .tpl-head{background:var(--navy); color:var(--paper); padding:20px 24px; margin:-40px -40px 24px; display:flex; justify-content:space-between; align-items:center;}
+  .tpl-standard .tpl-head .biz{font-family:var(--font-display); font-weight:700; font-size:18px;}
+  .tpl-sales .tpl-head{background:linear-gradient(90deg, var(--gold), var(--gold-bright)); color:var(--navy-deep); padding:20px 24px; margin:-40px -40px 24px; font-family:var(--font-display); font-weight:700; display:flex; justify-content:space-between; align-items:center;}
+  .tpl-sales .badge{font-family:var(--font-mono); font-size:11px; background:var(--navy-deep); color:var(--gold-bright); padding:4px 10px; border-radius:12px;}
+  .tpl-corporate .tpl-head{border-bottom:3px double var(--navy); padding-bottom:18px; margin-bottom:22px; display:flex; justify-content:space-between; align-items:flex-end;}
+  .tpl-corporate .tpl-head .biz{font-family:var(--font-display); font-weight:700; font-size:20px; letter-spacing:0.5px;}
+  .tpl-corporate .tpl-head .biz small{display:block; font-family:var(--font-mono); font-size:10.5px; color:var(--slate); font-weight:400; letter-spacing:1px; margin-top:4px;}
+  .tpl-lines .line-item{font-size:14px;}
+  .tpl-foot{display:flex; justify-content:flex-end; margin-top:22px;}
+  .tpl-foot .box{font-family:var(--font-mono); text-align:right;}
+  .tpl-foot .box .total{font-size:22px; font-weight:600; color:var(--navy);}
+
+  /* PRICING */
+  .pricing{background:var(--paper-2); padding:100px 32px;}
+  .pricing-grid{max-width:1180px; margin:0 auto; display:grid; grid-template-columns:repeat(3,1fr); gap:24px;}
+  .ticket{
+    background:var(--white); border-radius:4px; position:relative; overflow:hidden;
+    box-shadow:0 20px 45px -28px rgba(18,33,58,0.35);
+  }
+  .ticket-top{padding:30px 30px 22px;}
+  .ticket.featured .ticket-top{background:var(--navy); color:var(--paper);}
+  .plan-name{font-family:var(--font-mono); font-size:12px; letter-spacing:1.5px; text-transform:uppercase; color:var(--gold); margin-bottom:14px;}
+  .ticket.featured .plan-name{color:var(--gold-bright);}
+  .price{font-family:var(--font-display); font-size:34px; font-weight:700;}
+  .price span{font-family:var(--font-mono); font-size:13px; font-weight:400; color:var(--slate);}
+  .ticket.featured .price span{color:#aab2c0;}
+  .ticket-perf{height:16px; background-image:radial-gradient(circle, var(--paper-2) 4px, transparent 4.5px); background-size:22px 16px; background-position:6px -8px; background-repeat:repeat-x;}
+  .ticket.featured .ticket-perf{background-image:radial-gradient(circle, var(--paper-2) 4px, transparent 4.5px);}
+  .ticket-body{padding:20px 30px 30px;}
+  .plan-line{display:flex; justify-content:space-between; font-size:13.5px; padding:9px 0; border-bottom:1px dotted #e2ddce;}
+  .plan-line .k{color:var(--navy);}
+  .plan-line .v{font-family:var(--font-mono); font-size:12px; color:var(--stamp-green); font-weight:600;}
+  .plan-line .v.off{color:#b7b2a2;}
+  .ticket-cta{margin-top:22px; width:100%; padding:13px; text-align:center;}
+
+  /* LOGIN CARD */
+  .login-section{padding:100px 32px; max-width:1180px; margin:0 auto; display:grid; grid-template-columns:1fr 1fr; gap:60px; align-items:center;}
+  .login-card{
+    background:var(--navy); border-radius:6px; padding:40px; color:var(--paper);
+    box-shadow:0 30px 60px -30px rgba(18,33,58,0.5); max-width:400px;
+  }
+  .login-card h3{font-family:var(--font-display); font-size:22px; margin-bottom:6px;}
+  .login-card .sub{font-size:13.5px; color:#aab2c0; margin-bottom:26px; font-family:var(--font-mono);}
+  .field{margin-bottom:16px;}
+  .field label{display:block; font-size:12px; color:#aab2c0; margin-bottom:6px; font-family:var(--font-mono);}
+  .field input{
+    width:100%; padding:11px 14px; border-radius:3px; border:1px solid rgba(243,239,228,0.2);
+    background:rgba(243,239,228,0.06); color:var(--paper); font-family:var(--font-body); font-size:14px;
+  }
+  .field input::placeholder{color:#7c8496;}
+  .login-card .btn{width:100%; margin-top:8px;}
+  .login-card .foot-link{text-align:center; margin-top:18px; font-size:13px; color:#aab2c0;}
+  .login-card .foot-link a{color:var(--gold-bright); font-weight:600;}
+
+  footer{background:var(--navy-deep); color:#8891a0; padding:40px 32px; text-align:center; font-size:13px; font-family:var(--font-mono);}
+
+  @media (max-width:880px){
+    .hero{grid-template-columns:1fr; padding-top:20px;}
+    .audience-grid{grid-template-columns:repeat(2,1fr);}
+    .pricing-grid{grid-template-columns:1fr;}
+    .login-section{grid-template-columns:1fr;}
+    h1{font-size:38px;}
+    nav{flex-wrap:wrap; gap:14px;}
+    .nav-links{display:none;}
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="logo"><span class="dot"></span>Duebook</div>
+  <div class="nav-links">
+    <a href="#templates">Templates</a>
+    <a href="#pricing">Pricing</a>
+    <a href="#">For companies</a>
+  </div>
+  <div class="nav-actions">
+    <a href="#login" class="btn-ghost">Log in</a>
+    <a href="#pricing" class="btn btn-primary">Get started free</a>
+  </div>
+</nav>
+
+<section class="hero">
+  <div>
+    <div class="eyebrow">Made for anyone who writes a total</div>
+    <h1>Invoices that look like<br><em>you got paid</em> to make them.</h1>
+    <p class="hero-sub">Build, brand, and download professional invoices in minutes, free for 15 a month.</p>
+    <div class="hero-actions">
+      <button class="btn btn-primary btn-lg">Create your first invoice</button>
+      <button class="btn btn-gold btn-lg">See templates</button>
+    </div>
+    <div class="hero-note">15 free / month · ₦1,200 monthly · ₦12,000 yearly</div>
+  </div>
+  <div class="invoice-stage">
+    <div class="invoice-card">
+      <div class="perforation"></div>
+      <div class="invoice-head">
+        <div class="biz">Adaeze Studio</div>
+        <div class="meta"><span>INV-0042</span><span>14 Jul 2026</span></div>
+      </div>
+      <div class="invoice-body">
+        <div class="line-item"><span class="desc">Logo & brand kit</span><span class="leader"></span><span class="amt">₦85,000</span></div>
+        <div class="line-item"><span class="desc">Social templates (x6)</span><span class="leader"></span><span class="amt">₦40,000</span></div>
+        <div class="line-item"><span class="desc">Revisions</span><span class="leader"></span><span class="amt">₦15,000</span></div>
+        <div class="invoice-total">
+          <span class="label">Total due</span>
+          <span class="val">₦140,000</span>
+        </div>
+      </div>
+      <div class="stamp">PAID</div>
+    </div>
+  </div>
+</section>
+
+<section class="audience">
+  <div class="audience-grid">
+    <div class="audience-card">
+      <span class="tag">Freelancer</span>
+      <h3>Get paid on time</h3>
+      <p>Send a proper invoice in the time it takes to send a DM.</p>
+    </div>
+    <div class="audience-card">
+      <span class="tag">Shopkeeper</span>
+      <h3>Receipt on the spot</h3>
+      <p>Build and print a customer receipt right at the counter.</p>
+    </div>
+    <div class="audience-card">
+      <span class="tag">Individual</span>
+      <h3>One-off, no fuss</h3>
+      <p>Selling something once? One invoice, no account setup needed to try it.</p>
+    </div>
+    <div class="audience-card">
+      <span class="tag">Company</span>
+      <h3>Look the part</h3>
+      <p>Letterhead templates and multi-user access for growing teams.</p>
+    </div>
+  </div>
+</section>
+
+<section class="templates" id="templates">
+  <div class="section-head">
+    <div class="eyebrow">Four templates, one ledger</div>
+    <h2>Start plain, change it up when you need to.</h2>
+    <p>Every invoice you build can use a different template, so you can swap styles per client without starting over.</p>
+  </div>
+  <div class="tabs">
+    <button class="tab active" data-tpl="basic">Basic</button>
+    <button class="tab" data-tpl="standard">Standard</button>
+    <button class="tab" data-tpl="sales">Sales</button>
+    <button class="tab" data-tpl="corporate">Corporate</button>
+  </div>
+  <div class="template-preview">
+    <div class="tpl-panel tpl-basic active">
+      <div class="tpl-head"><span>Chuka Repairs</span><span>INV-1108 · 14 Jul 2026</span></div>
+      <div class="tpl-lines">
+        <div class="line-item"><span class="desc">Phone screen replacement</span><span class="leader"></span><span class="amt">₦18,000</span></div>
+        <div class="line-item"><span class="desc">Battery service</span><span class="leader"></span><span class="amt">₦9,500</span></div>
+      </div>
+      <div class="tpl-foot"><div class="box"><div>Total</div><div class="total">₦27,500</div></div></div>
+    </div>
+    <div class="tpl-panel tpl-standard">
+      <div class="tpl-head"><span class="biz">Nkem & Co. Design</span><span>INV-2091</span></div>
+      <div class="tpl-lines">
+        <div class="line-item"><span class="desc">Website design (5 pages)</span><span class="leader"></span><span class="amt">₦220,000</span></div>
+        <div class="line-item"><span class="desc">Hosting setup</span><span class="leader"></span><span class="amt">₦25,000</span></div>
+      </div>
+      <div class="tpl-foot"><div class="box"><div>Total</div><div class="total">₦245,000</div></div></div>
+    </div>
+    <div class="tpl-panel tpl-sales">
+      <div class="tpl-head"><span>Bimpe Fabrics: Sales Order</span><span class="badge">FLASH SALE</span></div>
+      <div class="tpl-lines">
+        <div class="line-item"><span class="desc">Ankara bundle (x3)</span><span class="leader"></span><span class="amt">₦45,000</span></div>
+        <div class="line-item"><span class="desc">Delivery (Lagos mainland)</span><span class="leader"></span><span class="amt">₦2,500</span></div>
+      </div>
+      <div class="tpl-foot"><div class="box"><div>Total</div><div class="total">₦47,500</div></div></div>
+    </div>
+    <div class="tpl-panel tpl-corporate">
+      <div class="tpl-head"><span class="biz">Verdant Logistics Ltd.<small>RC 1928374 · VAT registered</small></span><span>INV-00456</span></div>
+      <div class="tpl-lines">
+        <div class="line-item"><span class="desc">Fleet maintenance contract (Q3)</span><span class="leader"></span><span class="amt">₦1,850,000</span></div>
+        <div class="line-item"><span class="desc">VAT (7.5%)</span><span class="leader"></span><span class="amt">₦138,750</span></div>
+      </div>
+      <div class="tpl-foot"><div class="box"><div>Total due</div><div class="total">₦1,988,750</div></div></div>
+    </div>
+  </div>
+</section>
+
+<section class="pricing" id="pricing">
+  <div class="section-head" style="margin:0 auto 44px;">
+    <div class="eyebrow">Pay only if you outgrow free</div>
+    <h2>Priced like an invoice, not a subscription trap.</h2>
+  </div>
+  <div class="pricing-grid">
+    <div class="ticket">
+      <div class="ticket-top">
+        <div class="plan-name">Free</div>
+        <div class="price">₦0<span> / month</span></div>
+      </div>
+      <div class="ticket-perf"></div>
+      <div class="ticket-body">
+        <div class="plan-line"><span class="k">Invoices / month</span><span class="v">15</span></div>
+        <div class="plan-line"><span class="k">All templates</span><span class="v">Included</span></div>
+        <div class="plan-line"><span class="k">PDF download</span><span class="v">Included</span></div>
+        <div class="plan-line"><span class="k">Ads</span><span class="v off">Shown</span></div>
+        <button class="btn btn-ghost ticket-cta" style="border:1px solid #cfc9b8;">Start free</button>
+      </div>
+    </div>
+    <div class="ticket featured">
+      <div class="ticket-top">
+        <div class="plan-name">Monthly</div>
+        <div class="price">₦1,200<span> / month</span></div>
+      </div>
+      <div class="ticket-perf"></div>
+      <div class="ticket-body">
+        <div class="plan-line"><span class="k">Invoices / month</span><span class="v">Unlimited</span></div>
+        <div class="plan-line"><span class="k">All templates</span><span class="v">Included</span></div>
+        <div class="plan-line"><span class="k">PDF download</span><span class="v">Included</span></div>
+        <div class="plan-line"><span class="k">Ads</span><span class="v">Removed</span></div>
+        <button class="btn btn-primary ticket-cta">Go monthly</button>
+      </div>
+    </div>
+    <div class="ticket">
+      <div class="ticket-top">
+        <div class="plan-name">Yearly</div>
+        <div class="price">₦12,000<span> / year</span></div>
+      </div>
+      <div class="ticket-perf"></div>
+      <div class="ticket-body">
+        <div class="plan-line"><span class="k">Invoices / month</span><span class="v">Unlimited</span></div>
+        <div class="plan-line"><span class="k">All templates</span><span class="v">Included</span></div>
+        <div class="plan-line"><span class="k">PDF download</span><span class="v">Included</span></div>
+        <div class="plan-line"><span class="k">Ads</span><span class="v">Removed</span></div>
+        <button class="btn btn-gold ticket-cta">Save ~17%, pay yearly</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="login-section" id="login">
+  <div>
+    <div class="eyebrow">One account, every invoice</div>
+    <h2 style="font-family:var(--font-display); font-size:30px; margin-bottom:14px;">Your invoices, wherever you left off.</h2>
+    <p style="color:var(--slate); font-size:15px; max-width:400px;">Log in to pick up drafts, track what's been paid, and keep your free count accurate, so you don't have to re-enter client details every time.</p>
+  </div>
+  <div class="login-card">
+    <h3>Welcome back</h3>
+    <div class="sub">log in to Duebook</div>
+    <div class="field"><label>Email</label><input type="email" placeholder="you@business.com"></div>
+    <div class="field"><label>Password</label><input type="password" placeholder="••••••••"></div>
+    <button class="btn btn-gold">Log in</button>
+    <div class="foot-link">New here? <a href="#">Create a free account</a></div>
+  </div>
+</section>
+
+<footer>Duebook, invoices that get you paid.</footer>
+
+<script>
+  const tabs = document.querySelectorAll('.tab');
+  const panels = document.querySelectorAll('.tpl-panel');
+  tabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      tabs.forEach(t => t.classList.remove('active'));
+      panels.forEach(p => p.classList.remove('active'));
+      tab.classList.add('active');
+      document.querySelector('.tpl-' + tab.dataset.tpl).classList.add('active');
+    });
+  });
+</script>
+
+</body>
+</html>
