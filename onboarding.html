@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Duebook: Set up your business</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy:#12213A; --navy-deep:#0B1729; --paper:#F3EFE4; --paper-2:#EAE4D3;
+    --gold:#C89B3C; --gold-bright:#E0B75B; --stamp-green:#2F6D4F; --slate:#5B6472; --white:#FFFFFF;
+    --font-display:'Space Grotesk', sans-serif; --font-body:'Inter', sans-serif; --font-mono:'IBM Plex Mono', monospace;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  body{background:var(--navy); min-height:100vh; font-family:var(--font-body); color:var(--paper); display:flex; align-items:center; justify-content:center; padding:24px;}
+  button{font-family:inherit; cursor:pointer;}
+  input,select{font-family:inherit;}
+
+  .card{width:100%; max-width:480px;}
+  .brand{font-family:var(--font-display); font-weight:700; font-size:16px; display:flex; align-items:center; gap:8px; margin-bottom:30px;}
+  .brand .dot{width:8px;height:8px;border-radius:50%;background:var(--stamp-green);}
+
+  .steps{display:flex; gap:6px; margin-bottom:28px;}
+  .step{height:3px; flex:1; background:rgba(243,239,228,0.18); border-radius:2px;}
+  .step.done{background:var(--gold);}
+
+  .panel{background:var(--white); border-radius:8px; padding:36px; color:var(--navy);}
+  .eyebrow{font-family:var(--font-mono); font-size:11px; color:var(--stamp-green); letter-spacing:1px; text-transform:uppercase; margin-bottom:10px;}
+  h1{font-family:var(--font-display); font-size:22px; margin-bottom:8px;}
+  .sub{color:var(--slate); font-size:13.5px; margin-bottom:28px;}
+
+  .view{display:none;}
+  .view.active{display:block;}
+
+  .field{margin-bottom:16px;}
+  .field label{display:block; font-family:var(--font-mono); font-size:11px; color:var(--slate); margin-bottom:6px;}
+  .field input, .field select{width:100%; padding:11px 13px; border-radius:4px; border:1px solid #ddd6c4; font-size:14px; background:#fdfcf9;}
+
+  .logo-drop{
+    border:2px dashed #d3cdba; border-radius:6px; padding:26px; text-align:center; margin-bottom:20px; cursor:pointer;
+  }
+  .logo-drop .ic{width:44px; height:44px; border-radius:50%; background:var(--paper-2); margin:0 auto 12px; display:flex; align-items:center; justify-content:center; font-family:var(--font-mono); color:var(--slate);}
+  .logo-drop .t{font-size:13.5px; font-weight:600;}
+  .logo-drop .d{font-size:12px; color:var(--slate); margin-top:4px;}
+
+  .tile-grid{display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:22px;}
+  .tile{
+    border:1px solid #e4dfd0; border-radius:6px; padding:16px; text-align:left; background:none; transition:all .15s ease;
+  }
+  .tile:hover{border-color:var(--gold);}
+  .tile.selected{border-color:var(--navy); background:var(--navy); color:var(--paper);}
+  .tile .name{font-family:var(--font-display); font-weight:600; font-size:14px;}
+  .tile .desc{font-size:11.5px; color:var(--slate); margin-top:3px;}
+  .tile.selected .desc{color:#aab2c0;}
+
+  .actions{display:flex; justify-content:space-between; align-items:center; margin-top:8px;}
+  .btn{font-weight:600; font-size:14px; padding:11px 22px; border-radius:4px; border:none;}
+  .btn-gold{background:var(--gold); color:var(--navy-deep);}
+  .btn-text{background:none; color:var(--slate); font-size:13px;}
+  .skip{font-family:var(--font-mono); font-size:12px; color:var(--slate); background:none; border:none; text-decoration:underline;}
+</style>
+</head>
+<body>
+
+<div class="card">
+  <a href="index.html" class="brand" style="text-decoration:none;"><span class="dot"></span>Duebook</a>
+  <div class="steps">
+    <div class="step done" id="s1"></div>
+    <div class="step" id="s2"></div>
+    <div class="step" id="s3"></div>
+  </div>
+
+  <div class="panel">
+
+    <!-- STEP 1: what do you use it for -->
+    <div class="view active" id="view-1">
+      <div class="eyebrow">Step 1 of 3</div>
+      <h1>What are you billing for?</h1>
+      <div class="sub">This just picks your starting template. You can switch anytime.</div>
+      <div class="tile-grid">
+        <button class="tile selected" data-tile>
+          <div class="name">Freelancer</div>
+          <div class="desc">Client work, projects</div>
+        </button>
+        <button class="tile" data-tile>
+          <div class="name">Shopkeeper</div>
+          <div class="desc">In-person sales, receipts</div>
+        </button>
+        <button class="tile" data-tile>
+          <div class="name">Company</div>
+          <div class="desc">Contracts, letterhead</div>
+        </button>
+        <button class="tile" data-tile>
+          <div class="name">Individual</div>
+          <div class="desc">One-off sale</div>
+        </button>
+      </div>
+      <div class="actions">
+        <button class="skip" onclick="go(2)">Skip for now</button>
+        <button class="btn btn-gold" onclick="go(2)">Continue</button>
+      </div>
+    </div>
+
+    <!-- STEP 2: business details -->
+    <div class="view" id="view-2">
+      <div class="eyebrow">Step 2 of 3</div>
+      <h1>Your business details</h1>
+      <div class="sub">This appears at the top of every invoice you send.</div>
+      <div class="field"><label>Business name</label><input placeholder="e.g. Ngozi Fashion House"></div>
+      <div class="field"><label>Email shown on invoices</label><input placeholder="you@business.com"></div>
+      <div class="field"><label>Default currency</label>
+        <select><option>₦ Nigerian Naira</option><option>$ US Dollar</option><option>£ British Pound</option></select>
+      </div>
+      <div class="actions">
+        <button class="btn-text" onclick="go(1)">Back</button>
+        <button class="btn btn-gold" onclick="go(3)">Continue</button>
+      </div>
+    </div>
+
+    <!-- STEP 3: logo -->
+    <div class="view" id="view-3">
+      <div class="eyebrow">Step 3 of 3</div>
+      <h1>Add your logo</h1>
+      <div class="sub">Optional, but it makes every invoice look like yours.</div>
+      <div class="logo-drop">
+        <div class="ic">＋</div>
+        <div class="t">Click to upload</div>
+        <div class="d">PNG or JPG, up to 2MB</div>
+      </div>
+      <div class="actions">
+        <button class="btn-text" onclick="go(2)">Back</button>
+        <a href="dashboard.html" class="btn btn-gold" style="display:inline-block; text-align:center; text-decoration:none;">Finish setup</a>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+  function go(n){
+    document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+    document.getElementById('view-' + n).classList.add('active');
+    document.getElementById('s1').classList.toggle('done', n >= 1);
+    document.getElementById('s2').classList.toggle('done', n >= 2);
+    document.getElementById('s3').classList.toggle('done', n >= 3);
+  }
+  document.querySelectorAll('[data-tile]').forEach(t => {
+    t.addEventListener('click', () => {
+      document.querySelectorAll('[data-tile]').forEach(x => x.classList.remove('selected'));
+      t.classList.add('selected');
+    });
+  });
+</script>
+
+</body>
+</html>

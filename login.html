@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Duebook: Log in</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy:#12213A; --paper:#F3EFE4; --paper-2:#EAE4D3; --gold:#C89B3C; --gold-bright:#E0B75B;
+    --stamp-green:#2F6D4F; --slate:#5B6472; --white:#FFFFFF;
+    --font-display:'Space Grotesk', sans-serif; --font-body:'Inter', sans-serif; --font-mono:'IBM Plex Mono', monospace;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  body{background:var(--paper); min-height:100vh; font-family:var(--font-body); color:var(--navy); display:flex;}
+  a{color:inherit;}
+  button{font-family:inherit; cursor:pointer;}
+  input{font-family:inherit;}
+
+  .form-side{flex:1; display:flex; align-items:center; justify-content:center; padding:40px;}
+  .form-wrap{width:100%; max-width:380px;}
+  .brand{font-family:var(--font-display); font-weight:700; font-size:17px; display:flex; align-items:center; gap:8px; margin-bottom:36px; text-decoration:none;}
+  .brand .dot{width:8px;height:8px;border-radius:50%;background:var(--stamp-green);}
+  h1{font-family:var(--font-display); font-size:24px; margin-bottom:6px;}
+  .sub{color:var(--slate); font-size:13.5px; margin-bottom:28px;}
+
+  .field{margin-bottom:15px;}
+  .field label{display:block; font-family:var(--font-mono); font-size:11px; color:var(--slate); margin-bottom:6px;}
+  .field input{width:100%; padding:11px 13px; border-radius:4px; border:1px solid #ddd6c4; font-size:14px; background:var(--white);}
+
+  .row-between{display:flex; justify-content:flex-end; margin:-6px 0 18px;}
+  .row-between a{font-family:var(--font-mono); font-size:12px; color:var(--slate); text-decoration:underline;}
+
+  .btn-gold{display:block; width:100%; text-align:center; text-decoration:none; background:var(--gold); color:var(--navy); font-weight:600; font-size:14.5px; padding:13px; border-radius:4px; border:none; margin-top:6px;}
+  .divider{display:flex; align-items:center; gap:12px; margin:20px 0; color:#a49d89; font-family:var(--font-mono); font-size:11px;}
+  .divider::before, .divider::after{content:''; flex:1; height:1px; background:#e4dfd0;}
+  .btn-outline{width:100%; background:var(--white); border:1px solid #ddd6c4; color:var(--navy); font-weight:600; font-size:14px; padding:12px; border-radius:4px;}
+  .foot{text-align:center; margin-top:22px; font-size:13px; color:var(--slate);}
+  .foot a{color:var(--gold); font-weight:600; text-decoration:none;}
+
+  .visual-side{flex:1; background:var(--navy); display:flex; align-items:center; justify-content:center; position:relative; overflow:hidden;}
+  .visual-side .quote{color:var(--paper); max-width:340px; text-align:left; z-index:2;}
+  .visual-side .quote .mark{font-family:var(--font-display); font-size:44px; color:var(--gold-bright); line-height:1; margin-bottom:10px;}
+  .visual-side .quote p{font-family:var(--font-display); font-size:19px; font-weight:500; line-height:1.5; margin-bottom:18px;}
+  .visual-side .quote .who{font-family:var(--font-mono); font-size:12px; color:#aab2c0;}
+  .receipt-strip{
+    position:absolute; right:-40px; top:-40px; bottom:-40px; width:220px;
+    background-image:radial-gradient(circle, rgba(243,239,228,0.06) 5px, transparent 5.5px);
+    background-size:26px 26px; transform:rotate(8deg);
+  }
+
+  @media (max-width:820px){
+    body{flex-direction:column;}
+    .visual-side{display:none;}
+    .form-side{padding:30px 20px;}
+  }
+</style>
+</head>
+<body>
+
+  <div class="form-side">
+    <div class="form-wrap">
+      <a href="index.html" class="brand"><span class="dot"></span>Duebook</a>
+      <h1>Welcome back</h1>
+      <div class="sub">Log in to pick up where you left off.</div>
+
+      <div class="field"><label>Email</label><input placeholder="you@business.com" type="email"></div>
+      <div class="field"><label>Password</label><input placeholder="••••••••" type="password"></div>
+      <div class="row-between"><a href="reset-password.html">Forgot password?</a></div>
+
+      <a href="dashboard.html" class="btn-gold">Log in</a>
+
+      <div class="divider">OR</div>
+      <button class="btn-outline">Continue with Google</button>
+
+      <div class="foot">New here? <a href="signup.html">Create a free account</a></div>
+    </div>
+  </div>
+
+  <div class="visual-side">
+    <div class="receipt-strip"></div>
+    <div class="quote">
+      <div class="mark">"</div>
+      <p>I used to invoice clients from a WhatsApp message. Now it takes me a minute and it actually looks like a business.</p>
+      <div class="who">Chidinma O., freelance designer</div>
+    </div>
+  </div>
+
+</body>
+</html>

@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Duebook: Monthly limit reached</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy:#12213A; --navy-deep:#0B1729; --paper:#F3EFE4; --paper-2:#EAE4D3;
+    --gold:#C89B3C; --gold-bright:#E0B75B; --stamp-green:#2F6D4F; --slate:#5B6472;
+    --rust:#B4472A; --white:#FFFFFF;
+    --font-display:'Space Grotesk', sans-serif; --font-body:'Inter', sans-serif; --font-mono:'IBM Plex Mono', monospace;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  body{background:var(--paper-2); font-family:var(--font-body); color:var(--navy); min-height:100vh;}
+  button{font-family:inherit; cursor:pointer;}
+
+  /* backdrop: dimmed dashboard behind the modal, to show this interrupts a real action */
+  .backdrop{
+    min-height:100vh; display:flex; align-items:center; justify-content:center; padding:24px;
+    background:
+      linear-gradient(rgba(11,23,41,0.72), rgba(11,23,41,0.72)),
+      repeating-linear-gradient(135deg, var(--paper) 0 40px, var(--paper-2) 40px 80px);
+  }
+
+  .modal{
+    background:var(--white); width:100%; max-width:440px; border-radius:6px; overflow:hidden;
+    box-shadow:0 40px 90px -30px rgba(0,0,0,0.5);
+  }
+  .modal-head{padding:30px 32px 0; text-align:center;}
+  .stamp{
+    width:96px; height:96px; margin:0 auto 18px; border:3px solid var(--rust); border-radius:50%;
+    display:flex; align-items:center; justify-content:center; transform:rotate(-8deg);
+    font-family:var(--font-display); font-weight:700; font-size:12px; color:var(--rust); letter-spacing:1px; text-align:center; line-height:1.3;
+  }
+  .stamp::before{content:''; position:absolute;}
+  .modal-head h2{font-family:var(--font-display); font-size:21px; margin-bottom:8px;}
+  .modal-head p{color:var(--slate); font-size:14px; line-height:1.6; max-width:340px; margin:0 auto;}
+
+  .ledger-line{
+    display:flex; justify-content:space-between; align-items:center; margin:26px 32px 0;
+    padding-bottom:14px; border-bottom:1px dashed #ddd6c4; font-family:var(--font-mono); font-size:12.5px; color:var(--slate);
+  }
+  .ledger-line b{color:var(--navy); font-weight:600;}
+
+  .options{padding:22px 32px 8px; display:flex; flex-direction:column; gap:10px;}
+  .option{
+    display:flex; justify-content:space-between; align-items:center; padding:16px 18px;
+    border:1px solid #e4dfd0; border-radius:6px; text-align:left; background:none; transition:border-color .15s ease;
+  }
+  .option:hover{border-color:var(--gold);}
+  .option.featured{border-color:var(--navy); background:var(--navy); color:var(--paper);}
+  .option .name{font-family:var(--font-display); font-weight:600; font-size:14.5px;}
+  .option .desc{font-size:12px; color:var(--slate); margin-top:3px;}
+  .option.featured .desc{color:#aab2c0;}
+  .option .price{font-family:var(--font-mono); font-weight:700; font-size:15px; white-space:nowrap; margin-left:12px;}
+  .badge-save{font-family:var(--font-mono); font-size:10px; background:var(--gold); color:var(--navy-deep); padding:2px 7px; border-radius:10px; margin-left:8px; vertical-align:middle;}
+
+  .modal-foot{padding:20px 32px 30px; text-align:center;}
+  .wait-link{font-family:var(--font-mono); font-size:12.5px; color:var(--slate); background:none; border:none; text-decoration:underline;}
+  .reset-note{font-size:11.5px; color:#a49d89; margin-top:10px; font-family:var(--font-mono);}
+</style>
+</head>
+<body>
+
+<div class="backdrop">
+  <div class="modal">
+    <div class="modal-head">
+      <div class="stamp">LIMIT<br>REACHED</div>
+      <h2>This month's ledger is full.</h2>
+      <p>You've used all 15 free invoices for July. Upgrade to keep billing, or wait for next month.</p>
+    </div>
+
+    <div class="ledger-line">
+      <span>Invoices used</span>
+      <b>15 / 15</b>
+    </div>
+
+    <div class="options">
+      <a href="dashboard.html" class="option featured" style="text-decoration:none;">
+        <div><div class="name">Monthly</div><div class="desc">Unlimited invoices, no ads</div></div>
+        <div class="price">₦1,200</div>
+      </a>
+      <a href="dashboard.html" class="option" style="text-decoration:none;">
+        <div><div class="name">Yearly<span class="badge-save">SAVE 17%</span></div><div class="desc">Unlimited invoices, no ads</div></div>
+        <div class="price">₦12,000</div>
+      </a>
+    </div>
+
+    <div class="modal-foot">
+      <a href="dashboard.html" class="wait-link">I'll wait until next month</a>
+      <div class="reset-note">Your free invoices reset 1 Aug 2026.</div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

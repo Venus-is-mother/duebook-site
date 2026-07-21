@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Duebook: New invoice (mobile)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy:#12213A; --paper:#F3EFE4; --paper-2:#EAE4D3; --gold:#C89B3C; --gold-bright:#E0B75B;
+    --stamp-green:#2F6D4F; --slate:#5B6472; --rust:#B4472A; --white:#FFFFFF;
+    --font-display:'Space Grotesk', sans-serif; --font-body:'Inter', sans-serif; --font-mono:'IBM Plex Mono', monospace;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  body{background:#3a3f4a; font-family:var(--font-body); display:flex; justify-content:center; padding:30px 16px; min-height:100vh;}
+  button, input, select{font-family:inherit;}
+
+  /* phone frame, purely to preview mobile width */
+  .phone{
+    width:390px; max-width:100%; background:var(--paper-2); border-radius:34px; padding:14px;
+    box-shadow:0 40px 80px -30px rgba(0,0,0,0.6);
+  }
+  .screen{background:var(--paper-2); border-radius:22px; overflow:hidden; min-height:720px; display:flex; flex-direction:column;}
+
+  .appbar{
+    background:var(--navy); color:var(--paper); padding:16px 18px; display:flex; align-items:center; justify-content:space-between;
+  }
+  .appbar .back{font-family:var(--font-mono); font-size:18px; color:var(--paper);}
+  .appbar .title{font-family:var(--font-display); font-weight:600; font-size:15px;}
+  .appbar .save{font-family:var(--font-mono); font-size:11.5px; color:var(--gold-bright);}
+
+  .segmented{display:flex; margin:14px 16px 0; background:var(--white); border-radius:8px; padding:3px; box-shadow:0 6px 16px -10px rgba(18,33,58,0.3);}
+  .seg{flex:1; text-align:center; padding:9px; border:none; background:none; font-size:13px; font-weight:600; color:var(--slate); border-radius:6px;}
+  .seg.active{background:var(--navy); color:var(--paper);}
+
+  .content{flex:1; padding:16px; overflow-y:auto;}
+  .view{display:none;}
+  .view.active{display:block;}
+
+  .tpl-scroll{display:flex; gap:8px; overflow-x:auto; padding-bottom:4px; margin-bottom:18px;}
+  .tpl-chip{flex:0 0 auto; font-family:var(--font-mono); font-size:11.5px; padding:8px 14px; border-radius:16px; border:1px solid #d3cdba; background:var(--white); color:var(--slate); white-space:nowrap;}
+  .tpl-chip.active{background:var(--navy); color:var(--paper); border-color:var(--navy);}
+
+  .section-label{font-family:var(--font-mono); font-size:10.5px; color:var(--slate); text-transform:uppercase; letter-spacing:0.5px; margin-bottom:8px;}
+  .field{margin-bottom:12px;}
+  .field input, .field select{width:100%; padding:12px 13px; border-radius:6px; border:1px solid #ddd6c4; font-size:14px; background:var(--white);}
+
+  .item-card{background:var(--white); border-radius:8px; padding:12px; margin-bottom:8px;}
+  .item-card input{border:none; width:100%; font-size:14px; margin-bottom:8px; background:none;}
+  .item-card .row{display:flex; gap:8px; align-items:center;}
+  .item-card .row input{border:1px solid #eee6d3; border-radius:5px; padding:8px; font-size:13px;}
+  .item-card .row .rm{flex:0 0 auto; background:none; border:none; color:#c2b8a0; font-size:16px; padding:4px 6px;}
+  .add-item{width:100%; padding:12px; border:1.5px dashed #cfc9b8; border-radius:8px; background:none; color:var(--slate); font-size:13px; font-weight:600;}
+
+  .sticky-total{
+    background:var(--white); border-top:1px solid #e4dfd0; padding:12px 16px; display:flex; justify-content:space-between; align-items:center;
+  }
+  .sticky-total .label{font-family:var(--font-mono); font-size:11px; color:var(--slate);}
+  .sticky-total .val{font-family:var(--font-mono); font-weight:700; font-size:18px;}
+  .sticky-total .btn{background:var(--gold); color:var(--navy); font-weight:600; font-size:13.5px; padding:11px 18px; border-radius:6px; border:none;}
+
+  /* preview view */
+  .prev-card{background:var(--white); border-radius:6px; overflow:hidden; box-shadow:0 15px 35px -20px rgba(18,33,58,0.35);}
+  .perf{height:12px; background-image:radial-gradient(circle, var(--paper-2) 3.5px, transparent 4px); background-size:18px 12px; background-position:0 -6px; background-repeat:repeat-x;}
+  .prev-head{padding:18px 20px 14px; border-bottom:1px dashed #ddd6c4;}
+  .prev-biz{font-family:var(--font-display); font-weight:700; font-size:15px;}
+  .prev-meta{font-family:var(--font-mono); font-size:10.5px; color:var(--slate); margin-top:5px; display:flex; justify-content:space-between;}
+  .prev-body{padding:16px 20px;}
+  .prev-line{display:flex; justify-content:space-between; font-size:13px; margin-bottom:10px;}
+  .prev-line .leader{flex:1; border-bottom:1px dotted #d6d0bd; margin:0 6px; transform:translateY(-4px);}
+  .prev-total{margin-top:12px; padding-top:12px; border-top:1px solid var(--navy); display:flex; justify-content:space-between;}
+  .prev-total .label{font-family:var(--font-display); font-weight:600; font-size:13px;}
+  .prev-total .val{font-family:var(--font-mono); font-weight:700; font-size:18px;}
+  .prev-actions{display:flex; gap:8px; margin-top:16px;}
+  .prev-actions button{flex:1; padding:12px; border-radius:6px; font-size:13px; font-weight:600; border:none;}
+  .btn-outline{background:none; border:1px solid #cfc9b8; color:var(--navy);}
+  .btn-gold{background:var(--gold); color:var(--navy);}
+</style>
+</head>
+<body>
+
+<div class="phone">
+  <div class="screen">
+    <div class="appbar">
+      <a href="dashboard.html" class="back" style="text-decoration:none; color:inherit;">←</a>
+      <span class="title">New invoice</span>
+      <span class="save">Save</span>
+    </div>
+
+    <div class="segmented">
+      <button class="seg active" data-view="edit">Edit</button>
+      <button class="seg" data-view="preview">Preview</button>
+    </div>
+
+    <div class="content">
+      <!-- EDIT VIEW -->
+      <div class="view active" id="v-edit">
+        <div class="tpl-scroll">
+          <button class="tpl-chip active">Basic</button>
+          <button class="tpl-chip">Standard</button>
+          <button class="tpl-chip">Sales</button>
+          <button class="tpl-chip">Corporate</button>
+        </div>
+
+        <div class="section-label">Bill to</div>
+        <div class="field"><input placeholder="Client name" value="Mama Bisi Provisions"></div>
+        <div class="field"><select><option>₦ NGN</option><option>$ USD</option></select></div>
+
+        <div class="section-label">Line items</div>
+        <div class="item-card">
+          <input value="Rice, 1 bag">
+          <div class="row">
+            <input value="1" style="width:50px;">
+            <input value="45000" style="flex:1;">
+            <button class="rm">×</button>
+          </div>
+        </div>
+        <div class="item-card">
+          <input value="Cooking oil, 5L">
+          <div class="row">
+            <input value="2" style="width:50px;">
+            <input value="12000" style="flex:1;">
+            <button class="rm">×</button>
+          </div>
+        </div>
+        <button class="add-item">+ Add item</button>
+      </div>
+
+      <!-- PREVIEW VIEW -->
+      <div class="view" id="v-preview">
+        <div class="prev-card">
+          <div class="perf"></div>
+          <div class="prev-head">
+            <div class="prev-biz">Mama Bisi Provisions</div>
+            <div class="prev-meta"><span>INV-0051</span><span>15 Jul 2026</span></div>
+          </div>
+          <div class="prev-body">
+            <div class="prev-line"><span>Rice, 1 bag</span><span class="leader"></span><span>₦45,000</span></div>
+            <div class="prev-line"><span>Cooking oil, 5L (x2)</span><span class="leader"></span><span>₦24,000</span></div>
+            <div class="prev-total"><span class="label">Total due</span><span class="val">₦69,000</span></div>
+          </div>
+        </div>
+        <div class="prev-actions">
+          <button class="btn-outline">Share link</button>
+          <button class="btn-gold">Download PDF</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="sticky-total">
+      <div><div class="label">TOTAL</div><div class="val">₦69,000</div></div>
+      <button class="btn">Save invoice</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  document.querySelectorAll('.seg').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.seg').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+      document.getElementById('v-' + btn.dataset.view).classList.add('active');
+    });
+  });
+  document.querySelectorAll('.tpl-chip').forEach(c => {
+    c.addEventListener('click', () => {
+      document.querySelectorAll('.tpl-chip').forEach(x => x.classList.remove('active'));
+      c.classList.add('active');
+    });
+  });
+</script>
+
+</body>
+</html>
