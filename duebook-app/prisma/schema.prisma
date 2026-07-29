@@ -1,0 +1,99 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Get a free hosted Postgres database in seconds: `npx create-db`
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum Plan {
+  FREE
+  MONTHLY
+  YEARLY
+}
+
+enum InvoiceStatus {
+  DRAFT
+  SENT
+  PAID
+  OVERDUE
+}
+
+enum Template {
+  BASIC
+  STANDARD
+  SALES
+  CORPORATE
+}
+
+model User {
+  id            String    @id @default(cuid())
+  name          String?
+  email         String    @unique
+  passwordHash  String?
+  businessName  String?
+  logoUrl       String?
+  currency      String    @default("NGN")
+
+  plan          Plan      @default(FREE)
+  planRenewsAt  DateTime?
+
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  invoices      Invoice[]
+  subscriptions Subscription[]
+}
+
+model Invoice {
+  id            String        @id @default(cuid())
+  invoiceNumber String
+  clientName    String
+  clientEmail   String?
+  currency      String        @default("NGN")
+  template      Template      @default(BASIC)
+  status        InvoiceStatus @default(DRAFT)
+
+  subtotal      Decimal       @default(0)
+  tax           Decimal       @default(0)
+  total         Decimal       @default(0)
+
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+
+  user          User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId        String
+
+  items         InvoiceItem[]
+
+  @@index([userId, createdAt])
+}
+
+model InvoiceItem {
+  id          String   @id @default(cuid())
+  description String
+  quantity    Decimal  @default(1)
+  unitPrice   Decimal  @default(0)
+
+  invoice     Invoice  @relation(fields: [invoiceId], references: [id], onDelete: Cascade)
+  invoiceId   String
+}
+
+model Subscription {
+  id                 String    @id @default(cuid())
+  planType           Plan
+  paystackRef        String?   @unique
+  status             String
+  currentPeriodEnd   DateTime?
+
+  createdAt          DateTime  @default(now())
+  updatedAt          DateTime  @updatedAt
+
+  user               User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId             String
+} 
