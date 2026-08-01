@@ -81,7 +81,7 @@ export default async function DashboardPage() {
                 </tr>
               </thead>
               <tbody>
-                {invoices.map((inv) => (
+                {invoices.map((inv: any) => (
                   <tr key={inv.id}>
                     <td>{inv.clientName}<br /><span style={{ fontFamily: "var(--font-mono)", fontSize: 11.5, color: "var(--slate)" }}>{inv.invoiceNumber}</span></td>
                     <td><span className={`status ${statusClass(inv.status)}`}>{inv.status}</span></td>
