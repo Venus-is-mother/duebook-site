@@ -139,7 +139,6 @@ tr:last-child td{ border-bottom: none; }
 .empty-card{ background: var(--white); border-radius: 6px; padding: 60px 30px; text-align: center; box-shadow: 0 10px 30px -20px rgba(18,33,58,0.3); }
 .empty-card p{ color: var(--slate); margin-bottom: 20px; }
 
-
 .onboarding-bg{ background: var(--navy); min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 24px; }
 .onboarding-wrap{ max-width: 460px; width: 100%; }
 .onboarding-wrap .brand{ color: var(--paper); justify-content: center; }
@@ -176,7 +175,7 @@ tr:last-child td{ border-bottom: none; }
 .hero-actions{ display: flex; gap: 12px; margin-bottom: 20px; flex-wrap: wrap; }
 .hero-note{ font-size: 12.5px; color: var(--slate); font-family: var(--font-mono); }
 
-.nav-bar{ display: flex; align-items: center; justify-content: space-between; padding: 24px 32px; max-width: 1100px; margin: 0 auto; }
+.nav-bar{ display: flex; align-items: center; justify-content: space-between; gap: 24px; padding: 24px 32px; max-width: 1100px; margin: 0 auto; flex-wrap: wrap; }
 .nav-links{ display: flex; gap: 30px; font-size: 14px; color: var(--slate); font-weight: 500; }
 .nav-actions{ display: flex; gap: 14px; align-items: center; }
 
