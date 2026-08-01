@@ -4,13 +4,17 @@ export default function Home() {
   return (
     <>
       <nav className="nav-bar">
-        <div className="brand"><span className="dot"></span>Duebook</div>
-        <div className="nav-links">
-          <a href="#pricing">Pricing</a>
+        <div className="nav-top">
+          <div className="brand"><span className="dot"></span>Duebook</div>
         </div>
-        <div className="nav-actions">
-          <Link href="/login" className="btn btn-outline">Log in</Link>
-          <Link href="/signup" className="btn btn-primary">Get started free</Link>
+        <div className="nav-row">
+          <div className="nav-links">
+            <a href="#pricing" className="nav-link-pill">Pricing</a>
+          </div>
+          <div className="nav-actions">
+            <Link href="/login" className="btn btn-outline">Log in</Link>
+            <Link href="/signup" className="btn btn-primary">Get started free</Link>
+          </div>
         </div>
       </nav>
 
