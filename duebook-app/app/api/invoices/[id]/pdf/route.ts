@@ -45,7 +45,7 @@ export async function GET(
 
   const buffer = await renderToBuffer(element as any);
 
-  return new NextResponse(buffer, {
+  return new NextResponse(buffer as any, {
     headers: {
       "Content-Type": "application/pdf",
       "Content-Disposition": `attachment; filename="${invoice.invoiceNumber}.pdf"`,
