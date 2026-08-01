@@ -35,7 +35,7 @@ export async function GET(
       total: invoice.total.toString(),
       createdAt: invoice.createdAt,
     },
-    items: invoice.items.map((it) => ({
+    items: invoice.items.map((it: any) => ({
       description: it.description,
       quantity: it.quantity.toString(),
       unitPrice: it.unitPrice.toString(),
