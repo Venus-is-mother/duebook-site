@@ -2,13 +2,20 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import Link from "next/link";
 
 type Item = { description: string; quantity: string; unitPrice: string };
+
+const TEMPLATES = [
+  { key: "BASIC", label: "Basic", desc: "Simple, no-fuss — one-off sales" },
+  { key: "STANDARD", label: "Standard", desc: "Clean and professional — client work" },
+  { key: "SALES", label: "Sales", desc: "Receipt-style — in-person sales" },
+  { key: "CORPORATE", label: "Corporate", desc: "Formal letterhead — registered companies" },
+];
 
 export default function NewInvoiceForm() {
   const router = useRouter();
 
+  const [template, setTemplate] = useState("BASIC");
   const [clientName, setClientName] = useState("");
   const [clientEmail, setClientEmail] = useState("");
   const [items, setItems] = useState<Item[]>([{ description: "", quantity: "1", unitPrice: "" }]);
@@ -38,7 +45,7 @@ export default function NewInvoiceForm() {
     const res = await fetch("/api/invoices", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ clientName, clientEmail, items }),
+      body: JSON.stringify({ clientName, clientEmail, items, template }),
     });
 
     const data = await res.json();
@@ -57,8 +64,34 @@ export default function NewInvoiceForm() {
   }
 
   return (
-    <div className="table-card" style={{ padding: 28, maxWidth: 560 }}>
+    <div className="table-card" style={{ padding: 28, maxWidth: 620 }}>
       <form onSubmit={handleSubmit}>
+        <label style={{ display: "block", fontFamily: "var(--font-mono)", fontSize: 11, color: "var(--slate)", marginBottom: 10 }}>
+          Template
+        </label>
+        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10, marginBottom: 24 }}>
+          {TEMPLATES.map((t) => (
+            <button
+              key={t.key}
+              type="button"
+              onClick={() => setTemplate(t.key)}
+              style={{
+                textAlign: "left",
+                padding: 14,
+                borderRadius: 6,
+                border: template === t.key ? "1px solid var(--navy)" : "1px solid #e4dfd0",
+                background: template === t.key ? "var(--navy)" : "none",
+                color: template === t.key ? "var(--paper)" : "var(--navy)",
+                cursor: "pointer",
+                fontFamily: "inherit",
+              }}
+            >
+              <div style={{ fontFamily: "var(--font-display)", fontWeight: 600, fontSize: 14 }}>{t.label}</div>
+              <div style={{ fontSize: 11.5, marginTop: 3, color: template === t.key ? "#aab2c0" : "var(--slate)" }}>{t.desc}</div>
+            </button>
+          ))}
+        </div>
+
         <div className="field">
           <label>Client name</label>
           <input value={clientName} onChange={(e) => setClientName(e.target.value)} required />

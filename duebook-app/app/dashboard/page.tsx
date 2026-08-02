@@ -74,6 +74,7 @@ export default async function DashboardPage() {
               <thead>
                 <tr>
                   <th>Client</th>
+                  <th>Template</th>
                   <th>Status</th>
                   <th>Total</th>
                   <th>Date</th>
@@ -84,6 +85,7 @@ export default async function DashboardPage() {
                 {invoices.map((inv: any) => (
                   <tr key={inv.id}>
                     <td>{inv.clientName}<br /><span style={{ fontFamily: "var(--font-mono)", fontSize: 11.5, color: "var(--slate)" }}>{inv.invoiceNumber}</span></td>
+                    <td style={{ fontSize: 13 }}>{inv.template.charAt(0) + inv.template.slice(1).toLowerCase()}</td>
                     <td><span className={`status ${statusClass(inv.status)}`}>{inv.status}</span></td>
                     <td style={{ fontFamily: "var(--font-mono)", fontWeight: 600 }}>{inv.currency} {inv.total.toString()}</td>
                     <td>{inv.createdAt.toLocaleDateString()}</td>

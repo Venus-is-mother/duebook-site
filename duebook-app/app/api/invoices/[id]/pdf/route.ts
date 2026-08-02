@@ -33,8 +33,11 @@ export async function GET(
       clientEmail: invoice.clientEmail,
       currency: invoice.currency,
       total: invoice.total.toString(),
+      tax: invoice.tax.toString(),
       createdAt: invoice.createdAt,
+      template: invoice.template,
     },
+    
     items: invoice.items.map((it: any) => ({
       description: it.description,
       quantity: it.quantity.toString(),

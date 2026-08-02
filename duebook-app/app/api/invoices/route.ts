@@ -29,7 +29,9 @@ export async function POST(request: Request) {
 
   try {
     const body = await request.json();
-    const { clientName, clientEmail, items } = body;
+    const { clientName, clientEmail, items, template } = body;
+    const validTemplates = ["BASIC", "STANDARD", "SALES", "CORPORATE"];
+    const chosenTemplate = validTemplates.includes(template) ? template : "BASIC";
 
     if (!clientName || !Array.isArray(items) || items.length === 0) {
       return NextResponse.json(
@@ -55,7 +57,7 @@ export async function POST(request: Request) {
         clientName,
         clientEmail: clientEmail || null,
         currency: "NGN",
-        template: "BASIC",
+        template: chosenTemplate,
         subtotal,
         tax: 0,
         total: subtotal,
